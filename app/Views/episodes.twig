@@ -1,0 +1,51 @@
+{% extends "base.twig" %}
+
+{% set title = "Episodes" %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-8">{{ title }}</h1>
+    <div class="grid grid-cols-3 gap-6 mt-8">
+        {% for episode in episodes|slice((currentPage - 1) * limit, limit) %}
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg flex">
+                <div class="w-auto h-auto bg-gray-300"></div>
+                <div class="flex-1 p-4 flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-gray-800 font-semibold mb-2">{{ episode.name }}</h2>
+                        <p class="text-gray-600 text-sm">Episode: {{ episode.episode }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-xs">Air date:</p>
+                        <p class="text-gray-600 text-m">{{ episode.airDate }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-xs">Characters:</p>
+                        <p class="text-gray-600 text-m">{{ episode.characters|length }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% if numPages > 1 %}
+        <div class="flex justify-center my-8">
+            <div class="page-switcher flex items-center">
+                {% if currentPage > 1 %}
+                    <a href="?page={{ currentPage - 1 }}" class="bg-gray-700 hover:bg-gray-600 text-gray-100 px-3 py-2 rounded">Previous</a>
+                {% endif %}
+                <span class="text-gray-500 px-3">({{ currentPage }}/{{ numPages }})</span>
+                {% if currentPage < numPages %}
+                    <a href="?page={{ currentPage + 1 }}" class="bg-gray-700 hover:bg-gray-600 text-gray-100 px-3 py-2 rounded">Next</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{#                    <div class="carousel">#}
+{#                        {% for character in episode.characters %}#}
+{#                            <div class="carousel-item">#}
+{#                                <img src="{{ character.getImageUrl }}" alt="{{ character.name }}"#}
+{#                                     class="carousel-image">#}
+{#                                <p class="text-gray-600 text-m">{{ character.name }}</p>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                    </div>#}
